@@ -10,6 +10,7 @@ class Screen:
 
     def __init__(self):
         # Main Window
+        self.sum_of_lack = None
         self.window = Tk()
         self.window.title("Typing Speed App")
         self.window.minsize(300, 300)
@@ -60,9 +61,6 @@ class Screen:
         info = Button(text="Instruction",highlightbackground="#40BFC1", bg="#40BFC1", fg="#FF6F5E",
                       command=lambda: [self.show_info(), info.destroy(), easy.destroy(), hard.destroy()])
         info.grid(column=1, row=4, pady=50)
-
-    def bye(self):
-        self.window.quit()
 
     def show_info(self):
         """Shows instruction to the application. When closed shows starting screen again."""
@@ -168,28 +166,19 @@ class Screen:
         return mistakes
 
     def show_mistake(self, difference):
-        """Changes a letter in the Text widget into a wrongly typed one and changes its color into red."""
+        """Changes a letter's color in the Text widget when typed wrongly."""
         entry_len = len(self.entry_txt) - 1 - difference
         self.generated_text.tag_config("#ff0000", foreground="#F0134D")
-        char = self.entry_txt[len(self.entry_txt) - 1 - difference]
         self.generated_text.tag_add("#ff0000", f"1.{entry_len}")
 
     def show_correct(self, difference):
-        """Changes a letter's color in the Text widget into green when typed correctly."""
+        """Changes a letter's color in the Text widget when typed correctly."""
         entry_len = len(self.entry_txt) - 1 - difference
         self.generated_text.tag_config("#2AAA8A", foreground="#916DB3")
         char = self.text[len(self.entry_txt) - 1 - difference]
         self.generated_text.delete(f"1.{entry_len}", f"1.{entry_len + 1}")
         self.generated_text.insert(f"1.{entry_len}", char)
         self.generated_text.tag_add("#2AAA8A", f"1.{entry_len}")
-
-    def show_original_letter(self):
-        """Shows original letter in color in the Text widget on backspace."""
-        self.generated_text.tag_config("#fafafa", foreground="#fafafa")
-        char = self.text[len(self.entry_txt)]
-        self.generated_text.delete(f"1.{len(self.entry_txt)}")
-        self.generated_text.insert(f"1.{len(self.entry_txt)}", char)
-        self.generated_text.tag_add("#fafafa", f"1.{len(self.entry_txt)}")
 
     def check_spelling(self):
         """Main method that checks how accurate the spelling is. Compares typed letters in the Entry Field,
@@ -282,9 +271,9 @@ class Screen:
                                    f"Net WPN: {net_wpm}.\n"
                                    f"Accuracy: "
                                    f"{'%.2f' % accuracy}%.")
-        self.save_score(self.net_wpm)
+        self.save_score()
 
-    def save_score(self, net_wpn):
+    def save_score(self):
         """Saves the highest score into data.txt."""
         if self.net_wpm > self.high_score:
             self.high_score = self.net_wpm
