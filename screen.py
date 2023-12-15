@@ -13,7 +13,7 @@ class Screen:
         self.window = Tk()
         self.window.title("Typing Speed App")
         self.window.minsize(300, 300)
-        self.window.config(padx=30, pady=10, bg="#0C134F")
+        self.window.config(padx=30, pady=10, bg="#40BFC1")
 
         # Application's widgets
         self.difficulty_label = Label()
@@ -48,29 +48,26 @@ class Screen:
 
     def choose_difficulty(self):
         """Starting screen that allows to choose difficulty or show the instruction."""
-        self.difficulty_label = Label(text="CHOOSE A DIFFICULTY", font=("Myriad Pro", 25, "bold"), bg="#0C134F",
-                                      fg="#D4ADFC")
-        self.difficulty_label.grid(column=0, row=0, columnspan=3, padx=50, pady=20)
-        easy = Button(text="Easy", font=("Myriad Pro", 20, "bold"), bg="#0C134F", fg="#5C469C",
+        self.difficulty_label = Label(text="Welcome to Typing Speed Test \n\n\n\n\n\nSelect Difficulty",  bg="#40BFC1",
+                                      fg="#F5F0E3")
+        self.difficulty_label.grid(column=0, row=0, columnspan=3, padx=50, pady=10)
+        easy = Button(text="Easy",highlightbackground="#40BFC1", bg="#40BFC1", fg="#FF6F5E",
                       command=lambda: [self.create_text_easy(), easy.destroy(), hard.destroy(), info.destroy()])
-        easy.grid(column=0, row=2, padx=20, pady=20)
-        hard = Button(text="Hard", font=("Myriad Pro", 20, "bold"), bg="#0C134F", fg="#5C469C",
+        easy.grid(column=0, row=1, padx=20, pady=15)
+        hard = Button(text="Hard",highlightbackground="#40BFC1", bg="#40BFC1", fg="#FF6F5E",
                       command=lambda: [self.create_text_hard(), easy.destroy(), hard.destroy(), info.destroy()])
-        hard.grid(column=2, row=2, padx=20, pady=50)
-        info = Button(text="INSTRUCTION", font=("Myriad Pro", 8, "bold"), bg="#1D267D", fg="#D4ADFC",
+        hard.grid(column=2, row=1, padx=20, pady=15)
+        info = Button(text="Instruction",highlightbackground="#40BFC1", bg="#40BFC1", fg="#FF6F5E",
                       command=lambda: [self.show_info(), info.destroy(), easy.destroy(), hard.destroy()])
-        info.grid(column=1, row=3)
-        btn_ext = Button(text="quit", font=("Myriad Pro", 8, "bold"), bg="#1D267D", fg="#D4ADFC",
-                         command=lambda: [self.bye(), btn_ext.destroy(), easy.destroy(), hard.destroy()])
-        btn_ext.grid(column=1, row=4, pady=30)
+        info.grid(column=1, row=4, pady=50)
 
     def bye(self):
         self.window.quit()
 
     def show_info(self):
         """Shows instruction to the application. When closed shows starting screen again."""
-        self.difficulty_label.config(text="Welcome in the Typing Speed Test!")
-        info_text = Label(font=("Tahoma", 15), bg="#0C134F", fg="#5C469C", anchor=W, justify="left",
+        self.difficulty_label.config(text="Welcome in the Typing Speed Test!", fg="#FF6F5E")
+        info_text = Label(font=("Tahoma", 15), bg="#40BFC1", fg="#F5F0E3", anchor=W, justify="left",
                           text="This app allows you to check your typing speed. \n"
                                "First, choose a difficulty. \n"
                                "Then, the randomly chosen words of a given difficulty will appear. \n"
@@ -83,14 +80,11 @@ class Screen:
                                "LEGEND: WPM - Words Per Minute, CPM - Characters Per Minute, \n"
                                "NET WPN - WPN with counted mistakes.")
         info_text.grid(column=0, row=1, pady=20)
-        good_luck = Label(font=("Tahoma", 18, "bold"), bg="#0C134F", fg="#5C469C",
-                          text="GOOD LUCK!")
-        good_luck.grid(column=0, row=2, pady=20, padx=15)
-        back = Button(text="GO BACK", font=("Tahoma", 15, "bold"), bg="#0C134F", fg="#5C469C",
+        back = Button(text="Back", highlightbackground="#40BFC1", bg="#FFECD6", fg="#FF6F5E",
                       command=lambda: [self.clear_screen(),
                                        self.choose_difficulty(),
-                                       info_text.destroy(), back.destroy(), good_luck.destroy(),
-                                       self.difficulty_label.config(text="CHOOSE A DIFFICULTY")])
+                                       info_text.destroy(), back.destroy(),
+                                       self.difficulty_label.config(text="Difficulty")])
         back.grid(column=0, row=3)
 
     def create_text_easy(self):
@@ -102,7 +96,7 @@ class Screen:
             words = list(map(str, all_text.split()))
             for word in range(20):
                 self.set_of_words.append(random.choice(words).lower())
-            self.generated_text = Text(self.window, fg="#D4ADFC", bg="#0C134F", font=("Arial", 20, "bold"),
+            self.generated_text = Text(self.window, highlightbackground='#40BFC1',fg="#F5F0E3", bg="#40BFC1", font=("Arial", 20, "bold"),
                                        height=4, width=60, wrap="word")
             self.generated_text.grid(column=0, row=1, rowspan=3, columnspan=9, pady=35)
             self.generated_text.insert(END, self.change_into_txt(self.set_of_words).lower())
@@ -113,7 +107,7 @@ class Screen:
         self.create_widgets()
         for word in range(20):
             self.set_of_words.append(random.choice(list(get_english_words_set(['web2'], lower=True))))
-        self.generated_text = Text(self.window, fg="#D4ADFC", bg="#0C134F", font=("Arial", 20, "bold"),
+        self.generated_text = Text(self.window,highlightbackground="#40BFC1", fg="#F5F0E3", bg="#40BFC1", font=("Arial", 20, "bold"),
                                    height=5, width=60, wrap="word")
         self.generated_text.grid(column=0, row=1, rowspan=3, columnspan=9, pady=35)
         self.generated_text.insert(END, self.change_into_txt(self.set_of_words))
@@ -176,21 +170,21 @@ class Screen:
     def show_mistake(self, difference):
         """Changes a letter in the Text widget into a wrongly typed one and changes its color into red."""
         entry_len = len(self.entry_txt) - 1 - difference
-        self.generated_text.tag_config("#ff0000", foreground="#ff0000")
+        self.generated_text.tag_config("#ff0000", foreground="#F0134D")
         char = self.entry_txt[len(self.entry_txt) - 1 - difference]
         self.generated_text.tag_add("#ff0000", f"1.{entry_len}")
 
     def show_correct(self, difference):
         """Changes a letter's color in the Text widget into green when typed correctly."""
         entry_len = len(self.entry_txt) - 1 - difference
-        self.generated_text.tag_config("#2AAA8A", foreground="#2AAA8A")
+        self.generated_text.tag_config("#2AAA8A", foreground="#916DB3")
         char = self.text[len(self.entry_txt) - 1 - difference]
         self.generated_text.delete(f"1.{entry_len}", f"1.{entry_len + 1}")
         self.generated_text.insert(f"1.{entry_len}", char)
         self.generated_text.tag_add("#2AAA8A", f"1.{entry_len}")
 
     def show_original_letter(self):
-        """Shows original letter in white color in the Text widget on backspace."""
+        """Shows original letter in color in the Text widget on backspace."""
         self.generated_text.tag_config("#fafafa", foreground="#fafafa")
         char = self.text[len(self.entry_txt)]
         self.generated_text.delete(f"1.{len(self.entry_txt)}")
@@ -283,10 +277,10 @@ class Screen:
                        ((int(self.timer_text['text'])) / 60)))
         accuracy = (net_wpm * 100) / wpm
         messagebox.showinfo("End", f"CPM is {cpm}.\n"
-                                   f"WPM is "
+                                   f"WPM:  "
                                    f"{wpm},\n"
-                                   f"Net WPN is {net_wpm}.\n"
-                                   f"Accuracy was "
+                                   f"Net WPN: {net_wpm}.\n"
+                                   f"Accuracy: "
                                    f"{'%.2f' % accuracy}%.")
         self.save_score(self.net_wpm)
 
@@ -308,45 +302,45 @@ class Screen:
 
     def create_widgets(self):
         # timer
-        timer_label = Label(text="TIME:", fg="#D4ADFC", bg="#0C134F", font=("Tahoma", 12))
+        timer_label = Label(text="Time:", fg="#E48586", bg="#40BFC1", font=("Tahoma", 12))
         timer_label.grid(column=0, row=0, sticky=E)
-        self.timer_text = Label(text="0", fg="#D4ADFC", bg="#0C134F", font=("Tahoma", 12))
+        self.timer_text = Label(text="0", fg="#E48586", bg="#40BFC1", font=("Tahoma", 12))
         self.timer_text.grid(column=1, row=0, sticky=W)
 
         # characters per minute
-        cpm_label = Label(text=f"CPM: ", fg="#D4ADFC", bg="#0C134F", font=("Tahoma", 12))
+        cpm_label = Label(text=f"CPM: ", fg="#E48586", bg="#40BFC1", font=("Tahoma", 12))
         cpm_label.grid(column=2, row=0, sticky=E)
-        self.cpm_value = Label(text="0", fg="#D4ADFC", bg="#0C134F", font=("Tahoma", 12))
+        self.cpm_value = Label(text="0", fg="#E48586", bg="#40BFC1", font=("Tahoma", 12))
         self.cpm_value.grid(column=3, row=0, sticky=W)
 
         # words per minute
-        wpm_label = Label(text="WPM/NET: ", fg="#D4ADFC", bg="#0C134F", font=("Tahoma", 12))
+        wpm_label = Label(text="WPM/NET: ", fg="#E48586", bg="#40BFC1", font=("Tahoma", 12))
         wpm_label.grid(column=4, row=0, sticky=E)
-        self.wpm_value = Label(text="0", fg="#D4ADFC", bg="#0C134F", font=("Tahoma", 12))
+        self.wpm_value = Label(text="0", fg="#E48586", bg="#40BFC1", font=("Tahoma", 12))
         self.wpm_value.grid(column=5, row=0, sticky=W)
 
         # mistakes
-        mist_label = Label(text="MISTAKES: ", fg="#D4ADFC", bg="#0C134F", font=("Tahoma", 12))
+        mist_label = Label(text="Mistakes: ", fg="#E48586", bg="#40BFC1", font=("Tahoma", 12))
         mist_label.grid(column=6, row=0, sticky=E)
-        self.mist_value = Label(text="0", fg="#D4ADFC", bg="#0C134F", font=("Tahoma", 12))
+        self.mist_value = Label(text="0", fg="#E48586", bg="#40BFC1", font=("Tahoma", 12))
         self.mist_value.grid(column=7, row=0, sticky=W)
 
         # current highest score
-        high_score_label = Label(text=f"HIGH SCORE: {self.high_score} NET WPM.",
-                                 fg="#D4ADFC", bg="#0C134F", font=("Tahoma", 12, "bold"))
+        high_score_label = Label(text=f"High Score: {self.high_score} NET WPM.",
+                                 fg="#E48586", bg="#40BFC1", font=("Tahoma", 12, "bold"))
         high_score_label.grid(column=8, row=0)
 
         # entry field
-        entry_label = Label(text="WRITE BELOW:", width=15, fg="#D4ADFC", bg="#0C134F", font=("Tahoma", 12, "bold"))
+        entry_label = Label(text="Type word here:", width=15, fg="#E48586", bg="#40BFC1", font=("Tahoma", 12, "bold"))
         entry_label.grid(column=1, row=5)
         self.entry = StringVar()
         self.entry.trace_add('write', self.text_callback)
-        self.entry_field = Entry(self.window, width=95, textvariable=self.entry, bg="#242424", fg="#fafafa",
+        self.entry_field = Entry(self.window, width=95, textvariable=self.entry, highlightbackground="#40BFC1",bg="#40BFC1", fg="#F5F0E3",
                                  font=("Arial", 12, "bold"))
         self.entry_field.grid(column=1, row=6, columnspan=8, pady=15)
         self.entry_field.bind("<BackSpace>", self.backspace)
 
         # restart button
-        restart = Button(text="RESTART", font=("Tahoma", 12, "bold"), fg="#D4ADFC", bg="#0C134F",
+        restart = Button(text="Restart",highlightbackground="#40BFC1",fg="#FF6F5E", bg="#0C134F",
                          command=self.restart)
         restart.grid(column=8, row=7)
